@@ -1,12 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { Text } from "react-native";
 import styled from "styled-components/native";
+import SearchRoute from "./pages/SearchRoute";
 
 export default function App() {
   return (
     <ViewBox>
-      <Text>Open up App.tsx to start working on your app!</Text>
       <StatusBar style="auto" />
+      {/* 기본 페이지 */}
+      <SearchRoute />
     </ViewBox>
   );
 }
