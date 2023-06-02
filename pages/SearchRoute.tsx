@@ -1,36 +1,111 @@
-import { Image, Text, TextInput, View } from "react-native";
+import * as React from "react";
+import Animated from "react-native-reanimated";
+// import BottomSheet from "reanimated-bottom-sheet";
+import { Button, Image, Text, TextInput, View } from "react-native";
 import styled from "styled-components/native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 
 export default function SearchRoute() {
+  const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
+
+  // variables
+  const snapPoints = React.useMemo(() => ["25%", "50%"], []);
+
+  // callbacks
+  const handlePresentModalPress = React.useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = React.useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  // renders 모달 뒷배경
+  const renderBackdrop = React.useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        // disappearsOnIndex={1}
+        // appearsOnIndex={2}
+        appearsOnIndex={0} // 이거 추가
+        disappearsOnIndex={-1}
+        pressBehavior="close" //뒷배경 누르면 닫힘
+      />
+    ),
+    []
+  );
+
   return (
-    <ViewBox>
-      <View style={{ alignItems: "center" }}>
+    <GestureHandlerRootView style={{ flex: 1, width: "100%" }}>
+      <ViewBox>
         <Logo source={require("../assets/easyhachul_korean.png")} />
-        <StationInput>
-          <Text style={{ fontSize: 20, lineHeight: 60 }}>
-            출발역을 입력해주세요
-          </Text>
-          <Image
-            source={require("../assets/search_voice.png")}
-            style={{ width: 30, height: 30, marginTop: 15 }}
-          />
-        </StationInput>
-        <StationInput>
-          <Text style={{ fontSize: 20, lineHeight: 60 }}>
-            도착역을 입력해주세요
-          </Text>
-          <Image
-            source={require("../assets/search_voice.png")}
-            style={{ width: 30, height: 30, marginTop: 15 }}
-          />
-        </StationInput>
-        <Search>
-          <Text style={{ fontSize: 20, lineHeight: 60 }}>경로 검색하기</Text>
-        </Search>
-      </View>
-      <MapIcon source={require("../assets/icon_map.png")} />
-      <CallIcon source={require("../assets/icon_call.png")} />
-    </ViewBox>
+        <MapIcon source={require("../assets/icon_map.png")} />
+        <CallIcon source={require("../assets/icon_call.png")} />
+        <BottomSheetModalProvider>
+          <StationInput>
+            <Button
+              onPress={handlePresentModalPress}
+              title="출발역을 입력해주세요"
+              color="black"
+            />
+            <BottomSheetModal
+              ref={bottomSheetModalRef}
+              index={1}
+              snapPoints={snapPoints}
+              onChange={handleSheetChanges}
+              backdropComponent={renderBackdrop}
+            >
+              <View style={{ backgroundColor: "skyblue" }}>
+                <Text>Awesome 🎉</Text>
+              </View>
+            </BottomSheetModal>
+          </StationInput>
+        </BottomSheetModalProvider>
+      </ViewBox>
+    </GestureHandlerRootView>
+
+    //이건왜 안돼 ㅡㅡ
+    // <GestureHandlerRootView style={{ flex: 1, width: "100%" }}>
+    // <BottomSheetModalProvider>
+    //   <ViewBox>
+    //     <View style={{ alignItems: "center" }}>
+    //       <Logo source={require("../assets/easyhachul_korean.png")} />
+    //       <StationInput
+    //         title="출발역을 입력해주세요"
+    //         onPress={handlePresentModalPress}
+    //       />
+    //       <Text style={{ fontSize: 20, lineHeight: 60 }}>
+    //         출발역을 입력해주세요
+    //       </Text>
+    //       <Image
+    //         source={require("../assets/search_voice.png")}
+    //         style={{ width: 30, height: 30, marginTop: 15 }}
+    //       />
+    //       <Search>
+    //         <Text style={{ fontSize: 20, lineHeight: 60 }}>경로 검색하기</Text>
+    //       </Search>
+    //     </View>
+    //     <MapIcon source={require("../assets/icon_map.png")} />
+    //     <CallIcon source={require("../assets/icon_call.png")} />
+
+    //     <BottomSheet
+    //       ref={bottomSheetModalRef}
+    //       index={0}
+    //       snapPoints={snapPoints}
+    //       onChange={handleSheetChanges}
+    //       backdropComponent={renderBackdrop}
+    //     >
+    //       <View>
+    //         <Text>Awesome 🎉</Text>
+    //       </View>
+    //     </BottomSheet>
+    //   </ViewBox>
+    // </BottomSheetModalProvider>
+    // </GestureHandlerRootView>
   );
 }
 
