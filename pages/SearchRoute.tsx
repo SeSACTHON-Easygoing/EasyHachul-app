@@ -33,6 +33,7 @@ export default function SearchRoute() {
         // appearsOnIndex={2}
         appearsOnIndex={0}
         disappearsOnIndex={-1}
+        pressBehavior="close" //뒷배경 누르면 닫힘
       />
     ),
     []
