@@ -14,7 +14,7 @@ export default function SearchRoute() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = React.useMemo(() => ["25%", "50%"], []);
+  const snapPoints = React.useMemo(() => ["50%"], []);
 
   // callbacks
   const handlePresentModalPress = React.useCallback(() => {
@@ -31,9 +31,8 @@ export default function SearchRoute() {
         {...props}
         // disappearsOnIndex={1}
         // appearsOnIndex={2}
-        appearsOnIndex={0} // 이거 추가
+        appearsOnIndex={0}
         disappearsOnIndex={-1}
-        pressBehavior="close" //뒷배경 누르면 닫힘
       />
     ),
     []
@@ -54,7 +53,7 @@ export default function SearchRoute() {
             />
             <BottomSheetModal
               ref={bottomSheetModalRef}
-              index={1}
+              index={0} //배열의 첫번째(0번째 인덱스)값만큼 바텀시트 높이를 올리겠다는 의미
               snapPoints={snapPoints}
               onChange={handleSheetChanges}
               backdropComponent={renderBackdrop}
